@@ -1,0 +1,5 @@
+{
+    "appService.showBuildDuringDeployPrompt": false,
+    "appService.defaultWebAppToDeploy": "/subscriptions/9660ac59-b440-499d-abd1-37a0c84c8a72/resourceGroups/Project3rg/providers/Microsoft.Web/sites/Project3WebApp",
+    "appService.deploySubpath": "."
+}
