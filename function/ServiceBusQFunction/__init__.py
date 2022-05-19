@@ -13,9 +13,8 @@ def main(msg: func.ServiceBusMessage):
 
     # TODO: Get connection to database
   
-    DbConnection = psycopg2.connect(dbname="techconfdb", user="postgres@migrationudacity", password="Balto1234", host="migrationudacity.postgres.database.azure.com")
-
-
+    DbConnection = psycopg2.connect(dbname="techconfdb", user="erikmonzyk@migrationudacity", password="Carson2013$$", host="project3server.postgres.database.azure.com")
+    
     try:
         cursor = DbConnection.cursor()
         cursor.execute("SELECT message,subject FROM notification WHERE id=%s;",(notification_id,))
@@ -29,11 +28,11 @@ def main(msg: func.ServiceBusMessage):
         # Loop through attendees
 
         for attendee in attendees:
-          CustomMessage = Mail(
-              from_email='from_email@techconf.com',
-              to_emails=attendee[0],
-              subject='{}: {}'.format(attendee[1], subject),
-              html_content=messagePlain)
+            CustomMessage = Mail(
+                from_email='from_email@techconf.com',
+                to_emails=attendee[0],
+                subject='{}: {}'.format(attendee[1], subject),
+                html_content=messagePlain)
 
             try:
                 SendGrid = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
@@ -49,7 +48,7 @@ def main(msg: func.ServiceBusMessage):
         # TODO: Update the notification table by setting the completed date and updating the status with the total number of attendees notified
         all_attendees = 'Notified {} attendees'.format(len(attendees))
         cursor.execute("UPDATE notification SET status = %s WHERE id=%s;", (all_attendees,notification_id))
-        conn.commit()
+        DbConnection.commit()
 
     except (Exception, psycopg2.DatabaseError) as error:
         logging.error(error)
