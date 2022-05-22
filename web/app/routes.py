@@ -51,7 +51,7 @@ def attendees():
 
 @app.route('/Notifications')
 def notifications():
-    notifications = Notification.query.order_by(Notification.id).all()
+    notifications = Notification.query.order_by(Notification.completed_date).all()
     return render_template('notifications.html', notifications=notifications)
 
 @app.route('/Notification', methods=['POST', 'GET'])

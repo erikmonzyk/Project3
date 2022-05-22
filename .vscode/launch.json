@@ -6,6 +6,30 @@
             "request": "launch",
             "module": "flask",
             "env": {
+                "FLASK_APP": "C:\\Udacity\\Project 3\\nd081-c3-Migrating-Non-Native-Cloud-Applications-project-starter\\web\\application.py",
+                "FLASK_ENV": "development"
+            },
+            "args": [
+                "run",
+                "--no-debugger"
+            ],
+            "jinja": true,
+            "justMyCode": true
+        },
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "Python: Flask",
+            "type": "python",
+            "request": "launch",
+            "module": "flask",
+            "env": {
                 "FLASK_APP": "app.py",
                 "FLASK_ENV": "development"
             },
