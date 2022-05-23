@@ -4,10 +4,10 @@ app_dir = os.path.abspath(os.path.dirname(__file__))
 
 class BaseConfig:
     DEBUG = True
-    POSTGRES_URL="project3server.postgres.database.azure.com"  #TODO: Update value
-    POSTGRES_USER="erikmonzyk@project3server" #TODO: Update value
-    POSTGRES_PW="Carson2013$$"   #TODO: Update value
-    POSTGRES_DB="techconfdb"   #TODO: Update value
+    POSTGRES_URL = "project3server.postgres.database.azure.com"  #TODO: Update value
+    POSTGRES_USER = "erikmonzyk@project3server" #TODO: Update value
+    POSTGRES_PW = "HarperHerra37$"   #TODO: Update value
+    POSTGRES_DB = "techconfdb"   #TODO: Update value
     DB_URL = 'postgresql://{user}:{pw}@{url}/{db}'.format(user=POSTGRES_USER,pw=POSTGRES_PW,url=POSTGRES_URL,db=POSTGRES_DB)
     SQLALCHEMY_DATABASE_URI = os.getenv('SQLALCHEMY_DATABASE_URI') or DB_URL
     CONFERENCE_ID = 1

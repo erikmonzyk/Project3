@@ -51,7 +51,7 @@ def attendees():
 
 @app.route('/Notifications')
 def notifications():
-    notifications = Notification.query.order_by(Notification.completed_date).all()
+    notifications = Notification.query.order_by(Notification.id).all()
     return render_template('notifications.html', notifications=notifications)
 
 @app.route('/Notification', methods=['POST', 'GET'])
@@ -67,6 +67,8 @@ def notification():
             # set notification
             db.session.add(notification)
             db.session.commit()
+            
+            #print('New notification added successfully with message: {} and subject: {}'.format request.form['message'], request.form['subject'])
 
             ##################################################
             ## TODO: Refactor This logic into an Azure Function
@@ -74,14 +76,15 @@ def notification():
             #################################################
             
             notification_id = notification.id
-            print ('Notification ID notification_id: {} to queue: {}' .format(notification_id, app.config.get('SERVICE_BUS_QUEUE_NAME')))
             
-            queue_client = QueueClient.from_connection_string(app.config.get('SERVICE_BUS_CONNECTION_STRING'), app.config.get('SERVICE_BUS_QUEUE_NAME'))
+            print('Notification ID notification_id: {} to queue: {}'.format(notification_id, app.config.get('SERVICE_BUS_QUEUE_NAME')))
+
+            #queue_client = QueueClient.from_connection_string(app.config.get('SERVICE_BUS_CONNECTION_STRING'), app.config.get('SERVICE_BUS_QUEUE_NAME'))
 			
 			#build message
-            message = Message(str(notification_id))
+            msg = Message(str(notification_id))
 			
-            queue_client.send(message)
+            queue_client.send(msg)
 			#check message formatting
             print('notification_id: {} queue: {}'.format(
                 notification_id, app.config.get('SERVICE_BUS_QUEUE_NAME')))
@@ -95,13 +98,13 @@ def notification():
 
 
 
-def send_email(email, subject, body):
-    if not app.config.get('SENDGRID_API_KEY'):
-        message = Mail(
-            from_email=app.config.get('ADMIN_EMAIL_ADDRESS'),
-            to_emails=email,
-            subject=subject,
-            plain_text_content=body)
+# def send_email(email, subject, body):
+#     if not app.config.get('SENDGRID_API_KEY'):
+#         message = Mail(
+#             from_email=app.config.get('ADMIN_EMAIL_ADDRESS'),
+#             to_emails=email,
+#             subject=subject,
+#             plain_text_content=body)
 
-        sg = SendGridAPIClient(app.config.get('SENDGRID_API_KEY'))
-        sg.send(message)
+#         sg = SendGridAPIClient(app.config.get('SENDGRID_API_KEY'))
+#         sg.send(message)
