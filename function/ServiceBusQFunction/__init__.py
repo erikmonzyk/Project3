@@ -8,12 +8,13 @@ from sendgrid.helpers.mail import Mail
 
 
 def main(msg: func.ServiceBusMessage):
-    notification_id = int(msg.get_body().decode('utf-8'))
+    notification_id = msg.get_body().decode('utf-8')
+    #notification_id = int(msg.get_body().decode('utf-8'))
     logging.info('Python ServiceBus queue trigger processed message: %s', notification_id)
 
     # TODO: Get connection to database
 
-    db = psycopg2.connect(dbname="techconfdb", user="erikmonzyk@project3server", password="HarperHerra37$", host="project3server.postgres.database.azure.com")
+    db = psycopg2.connect(dbname="techconfdb", user="erikmonzyk@project3server", password="Carson2013$$", host="project3server.postgres.database.azure.com")
     
     try:
         cur = db.cursor()
