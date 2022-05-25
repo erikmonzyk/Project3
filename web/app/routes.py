@@ -64,47 +64,31 @@ def notification():
         notification.submitted_date = datetime.utcnow()
 
         try:
-            # set notification
             db.session.add(notification)
             db.session.commit()
-            
-            #print('New notification added successfully with message: {} and subject: {}'.format request.form['message'], request.form['subject'])
 
-            ##################################################
-            ## TODO: Refactor This logic into an Azure Function
-            ## Code below will be replaced by a message queue
-            #################################################
-            
+            # set notification id
             notification_id = notification.id
             
-            print('Notification ID notification_id: {} to queue: {}'.format(notification_id, app.config.get('SERVICE_BUS_QUEUE_NAME')))
+            # grab all conference attendees
+            #attendees = Attendee.query.all()
 
-            #queue_client = QueueClient.from_connection_string(app.config.get('SERVICE_BUS_CONNECTION_STRING'), app.config.get('SERVICE_BUS_QUEUE_NAME'))
-			
-			#build message
+            # create queue client
+            queue_client = QueueClient.from_connection_string(app.config.get('SERVICE_BUS_CONNECTION_STRING'), app.config.get('SERVICE_BUS_QUEUE_NAME'))
+
+            # create message
             msg = Message(str(notification_id))
-			
-            queue_client.send(msg)
-			#check message formatting
-            print('notification_id: {} queue: {}'.format(
+            
+            # send message
+            queue_client.send(msg)   
+
+            print('notification_id: {} enqueued to queue: {}'.format(
                 notification_id, app.config.get('SERVICE_BUS_QUEUE_NAME')))
-			
+
+            # redirect to notifications
             return redirect('/Notifications')
         except:
             logging.error('log unable to save notification')
 
     else:
         return render_template('notification.html')
-
-
-
-# def send_email(email, subject, body):
-#     if not app.config.get('SENDGRID_API_KEY'):
-#         message = Mail(
-#             from_email=app.config.get('ADMIN_EMAIL_ADDRESS'),
-#             to_emails=email,
-#             subject=subject,
-#             plain_text_content=body)
-
-#         sg = SendGridAPIClient(app.config.get('SENDGRID_API_KEY'))
-#         sg.send(message)
