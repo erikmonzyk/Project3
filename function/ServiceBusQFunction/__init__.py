@@ -8,10 +8,15 @@ from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 
 from web.app.models import Attendee, Notification
+from web.app.routes import notification
 
+msg: func.ServiceBusMessage
 
 def main(msg: func.ServiceBusMessage):
+
     notification_id = (msg.get_body().decode('utf-8'))
+    logging.info(notification_id)
+    
     #notification_id = int(msg.get_body().decode('utf-8'))
     logging.info('Python ServiceBus queue trigger processed message: %s', notification_id)
 
