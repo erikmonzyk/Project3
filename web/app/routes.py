@@ -72,15 +72,15 @@ def notification():
             
             # grab all conference attendees
             #attendees = Attendee.query.all()
-
-            # create queue client
-            queue_client = QueueClient.from_connection_string(app.config.get('SERVICE_BUS_CONNECTION_STRING'), app.config.get('SERVICE_BUS_QUEUE_NAME'))
-
+                       
             # create message
             msg = Message(notification_id)
-            
             # send message
-            queue_client.send(msg)   
+            queue_client.send(msg) 
+            
+            # create queue client
+            #queue_client = QueueClient.from_connection_string(app.config.get('SERVICE_BUS_CONNECTION_STRING'), app.config.get('SERVICE_BUS_QUEUE_NAME'))
+  
 
             print('notification_id: {} enqueued to queue: {}'.format(
                 notification_id, app.config.get('SERVICE_BUS_QUEUE_NAME')))
