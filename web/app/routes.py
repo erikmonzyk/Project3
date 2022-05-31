@@ -62,7 +62,7 @@ def notification():
         notification.subject = request.form['subject']
         notification.status = 'Notifications submitted'
         notification.submitted_date = datetime.utcnow()
-        logging.info("New notification posted")
+        logging.info('New notification posted on {}'.format(notification.completed_date))
 
         try:
             db.session.add(notification)
@@ -73,15 +73,15 @@ def notification():
             
             # grab all conference attendees
             #attendees = Attendee.query.all()
-                       
+                                            
+            # create queue client
+            sbqueue_client = QueueClient.from_connection_string(app.config.get('SERVICE_BUS_CONNECTION_STRING'), app.config.get('SERVICE_BUS_QUEUE_NAME'))
+            
             # create message
             msg = Message(str(notification_id))
-                     
-            # create queue client
-            queue_client = QueueClient.from_connection_string(app.config.get('SERVICE_BUS_CONNECTION_STRING'), app.config.get('SERVICE_BUS_QUEUE_NAME'))
-            
+
              # send message
-            queue_client.send(msg) 
+            sbqueue_client.send(msg) 
   
 
             print('notification_id: {} enqueued to queue: {}'.format(
