@@ -6,7 +6,7 @@
       "type": "serviceBusTrigger",
       "direction": "in",
       "queueName": "notificationqueue",
-      "connection": "Endpoint=sb://projecthree.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=+ffDTbtzTdMs1rvDkfnyubSUZJ0iwYeELoNOhoeN0G8="
+      "connection": "SERVICE_BUS_CONNECTION_STRING"
     }
   ]
 }
