@@ -2,7 +2,7 @@ import logging
 import azure.functions as func
 import psycopg2
 import os
-from web.app.models import Attendee, Conference, Notification
+#from web.app.models import Attendee, Conference, Notification
 from datetime import datetime
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
@@ -15,7 +15,7 @@ def main(msg: func.ServiceBusMessage):
 
     # TODO: Get connection to database
 
-    db = psycopg2.connect(host="project3server.postgres.database.azure.com", dbname="techconfdb", user="erikmonzyk@project3server", password="Carson2013$$", host="project3server.postgres.database.azure.com")
+    db = psycopg2.connect(host="project3server.postgres.database.azure.com", dbname="techconfdb", user="erikmonzyk@project3server", password="Carson2013$$")
     cur = db.cursor()
     
     
