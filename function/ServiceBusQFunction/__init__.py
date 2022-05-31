@@ -56,7 +56,7 @@ def main(msg: func.ServiceBusMessage):
             #     logging.error(e)
             
         notification.completed_date = datetime.utcnow()
-        status = "Notified {} attendees".format(len(attendees))
+        status = 'Notified {} attendees'.format(len(attendees))
                 
         update_status_date = cur.execute("UPDATE notification SET status = '{}', completed_date = '{}' WHERE id = {};".format(status, notification.completed_date, notification_id))
         db.commit()

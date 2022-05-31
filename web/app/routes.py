@@ -75,7 +75,7 @@ def notification():
             #attendees = Attendee.query.all()
                        
             # create message
-            msg = Message(notification_id)
+            msg = Message(str(notification_id))
                      
             # create queue client
             queue_client = QueueClient.from_connection_string(app.config.get('SERVICE_BUS_CONNECTION_STRING'), app.config.get('SERVICE_BUS_QUEUE_NAME'))
