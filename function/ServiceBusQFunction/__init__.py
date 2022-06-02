@@ -18,22 +18,23 @@ def main(msg: func.ServiceBusMessage):
     # TODO: Get connection to database
 
     db = psycopg2.connect(host="project3server.postgres.database.azure.com", dbname="techconfdb", user="erikmonzyk@project3server", password="Carson2013$$")
-    cur = db.cursor()
+    cursor = db.cursor()
     
     
     try:
     
-        query = cur.execute("SELECT message, subject FROM notification WHERE id = {};".format(notification_id))
+        query = cursor.execute("SELECT message, subject FROM notification WHERE id = {};".format(notification_id))
+        
 
-        # rows = cur.fetchall()
+        # rows = cursor.fetchall()
         # rows = rows [0]
         # subject = str(rows[0])
         # body = str(rows[1])
         
         # TODO: Get attendees email and name
         logging.info('Fetching attendees email and name...')
-        cur.execute("SELECT email, first_name FROM attendee;")
-        attendees = cur.fetchall()
+        cursor.execute("SELECT email, first_name FROM attendee;")
+        attendees = cursor.fetchall()
 
         # # Loop through attendees
         logging.info('Sending email to attendees')
@@ -57,7 +58,7 @@ def main(msg: func.ServiceBusMessage):
         # new_completed_date = datetime.utcnow()
         status = 'Notified {} attendees'.format(len(attendees))
                 
-        cur.execute("UPDATE notification SET status = '{}', completed_date = '{}' WHERE id = {};".format(status, datetime.utcnow(), notification_id))
+        cursor.execute("UPDATE notification SET status = '{}', completed_date = '{}' WHERE id = {};".format(status, datetime.utcnow(), notification_id))
         db.commit()
 
     except (Exception, psycopg2.DatabaseError) as error:
@@ -65,7 +66,7 @@ def main(msg: func.ServiceBusMessage):
         db.rollback()
         
     finally:
-        cur.close()
+        cursor.close()
         db.close()
         
 
