@@ -9,11 +9,11 @@ from sendgrid.helpers.mail import Mail
 
 def main(msg: func.ServiceBusMessage):
 
-    #notification_id = (msg.get_body().decode('utf-8'))
+    notification_id_int = int(msg.get_body().decode('utf-8'))
     #print('notification_id: {} enqueued to queue: {}'.format(msg.get_body().decode('utf-8')))
     
     notification_id = str(msg.get_body().decode('utf-8'))
-    logging.info('Python ServiceBus queue trigger processed message: %s', notification_id)
+    logging.info('Python ServiceBus queue trigger processed message: %s', notification_id_int)
 
     # TODO: Get connection to database
 
@@ -24,14 +24,7 @@ def main(msg: func.ServiceBusMessage):
     try:
     
         query = cursor.execute("SELECT message, subject FROM notification WHERE id = {};".format(notification_id))
-        
 
-        # rows = cursor.fetchall()
-        # rows = rows [0]
-        # subject = str(rows[0])
-        # body = str(rows[1])
-        
-        # TODO: Get attendees email and name
         logging.info('Fetching attendees email and name...')
         cursor.execute("SELECT email, first_name FROM attendee;")
         attendees = cursor.fetchall()

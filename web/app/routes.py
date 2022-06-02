@@ -70,9 +70,6 @@ def notification():
 
             # set notification id
             notification_id = notification.id
-            
-            # grab all conference attendees
-            #attendees = Attendee.query.all()
                                             
             # create queue client
             sbqueue_client = QueueClient.from_connection_string(app.config.get('SERVICE_BUS_CONNECTION_STRING'), app.config.get('SERVICE_BUS_QUEUE_NAME'))
