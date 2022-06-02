@@ -11,16 +11,8 @@ def main(msg: func.ServiceBusMessage):
     notification_id_int = int(msg.get_body().decode('utf-8'))
     #print('notification_id: {} enqueued to queue: {}'.format(msg.get_body().decode('utf-8')))
     
-<<<<<<< HEAD
-    notification_id = str(msg.get_body().decode('utf-8'))
-    completed_date = datetime.utcnow()
-    
-    logging.info('Here is the completed date:%s', completed_date)
-    logging.info('Python ServiceBus queue trigger processed message: %s, %s', notification_id, notification_id_int)
-=======
     notification_id = int(msg.get_body().decode('utf-8'))
     logging.info('Python ServiceBus queue trigger processed message: %s', notification_id)
->>>>>>> parent of a67d141 (set notification_id to string from int.)
 
     # TODO: Get connection to database
 
@@ -58,11 +50,7 @@ def main(msg: func.ServiceBusMessage):
         new_completed_date = datetime.utcnow()
         status = 'Notified {} attendees'.format(len(attendees))
                 
-<<<<<<< HEAD
-        cursor.execute("UPDATE notification SET status = '{}', completed_date = '{}' WHERE id = {};".format(status, datetime.utcnow(), notification_id))
-=======
-        cur.execute("UPDATE notification SET status = '{}', completed_date = '{}' WHERE id = {};".format(status, new_completed_date, notification_id))
->>>>>>> parent of a67d141 (set notification_id to string from int.)
+        cursor.execute("UPDATE notification SET status = '{}', completed_date = '{}' WHERE id = {};".format(status, new_completed_date, notification_id))
         db.commit()
 
     except (Exception, psycopg2.DatabaseError) as error:
