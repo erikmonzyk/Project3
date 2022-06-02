@@ -13,6 +13,9 @@ def main(msg: func.ServiceBusMessage):
     #print('notification_id: {} enqueued to queue: {}'.format(msg.get_body().decode('utf-8')))
     
     notification_id = str(msg.get_body().decode('utf-8'))
+    completed_date = datetime.utcnow()
+    
+    logging.info('Here is the completed date:%s', completed_date)
     logging.info('Python ServiceBus queue trigger processed message: %s',notification_id)
 
     # TODO: Get connection to database
@@ -23,7 +26,7 @@ def main(msg: func.ServiceBusMessage):
     
     try:
     
-        cursor.execute("SELECT message, subject FROM notification WHERE id = {};".format(notification_id))
+        #cursor.execute("SELECT message, subject FROM notification WHERE id = {};".format(notification_id))
 
         logging.info('Fetching attendees email and name...')
         cursor.execute("SELECT email, first_name FROM attendee;")
