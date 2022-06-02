@@ -9,11 +9,11 @@ from sendgrid.helpers.mail import Mail
 
 def main(msg: func.ServiceBusMessage):
 
-    notification_id_int = int(msg.get_body().decode('utf-8'))
+    #notification_id_int = int(msg.get_body().decode('utf-8'))
     #print('notification_id: {} enqueued to queue: {}'.format(msg.get_body().decode('utf-8')))
     
     notification_id = str(msg.get_body().decode('utf-8'))
-    logging.info('Python ServiceBus queue trigger processed message: %s', notification_id_int)
+    logging.info('Python ServiceBus queue trigger processed message: %s',notification_id)
 
     # TODO: Get connection to database
 
@@ -23,16 +23,16 @@ def main(msg: func.ServiceBusMessage):
     
     try:
     
-        query = cursor.execute("SELECT message, subject FROM notification WHERE id = {};".format(notification_id))
+        cursor.execute("SELECT message, subject FROM notification WHERE id = {};".format(notification_id))
 
         logging.info('Fetching attendees email and name...')
         cursor.execute("SELECT email, first_name FROM attendee;")
         attendees = cursor.fetchall()
 
         # # Loop through attendees
-        logging.info('Sending email to attendees')
-        for attendee in attendees:
-             Mail('{}, {}, {}'.format({'xxxx@xxxx.com'}, {attendee[2]}, {query}))
+        # logging.info('Sending email to attendees')
+        # for attendee in attendees:
+        #      Mail('{}, {}, {}'.format({'xxxx@xxxx.com'}, {attendee[2]}, {query}))
 
         #Try different loop 
         # for (email, first_name) in attendees:
