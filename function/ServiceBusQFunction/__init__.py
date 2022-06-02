@@ -9,14 +9,14 @@ from sendgrid.helpers.mail import Mail
 
 def main(msg: func.ServiceBusMessage):
 
-    #notification_id_int = int(msg.get_body().decode('utf-8'))
+    notification_id_int = int(msg.get_body().decode('utf-8'))
     #print('notification_id: {} enqueued to queue: {}'.format(msg.get_body().decode('utf-8')))
     
     notification_id = str(msg.get_body().decode('utf-8'))
     completed_date = datetime.utcnow()
     
     logging.info('Here is the completed date:%s', completed_date)
-    logging.info('Python ServiceBus queue trigger processed message: %s',notification_id)
+    logging.info('Python ServiceBus queue trigger processed message: %s, %s', notification_id, notification_id_int)
 
     # TODO: Get connection to database
 
