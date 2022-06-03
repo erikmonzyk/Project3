@@ -12,7 +12,7 @@ def main(msg: func.ServiceBusMessage):
     #print('notification_id: {} enqueued to queue: {}'.format(msg.get_body().decode('utf-8')))
     
     notification_id = int(msg.get_body().decode('utf-8'))
-    logging.info('Python ServiceBus queue trigger processed message: %s', notification_id)
+    logging.info('Python ServiceBus queue trigger processed message: %s, %s', notification_id_int, notification_id)
 
     # TODO: Get connection to database
 
@@ -24,10 +24,10 @@ def main(msg: func.ServiceBusMessage):
     
         #cursor.execute("SELECT message, subject FROM notification WHERE id = {};".format(notification_id))
 
-        rows = cur.fetchall()
-        rows = rows [0]
-        subject = str(rows[0])
-        body = str(rows[1])
+        # rows = cursor.fetchall()
+        # rows = rows [0]
+        # subject = str(rows[0])
+        # body = str(rows[1])
         
         # TODO: Get attendees email and name
         logging.info('Fetching attendees email and name...')
