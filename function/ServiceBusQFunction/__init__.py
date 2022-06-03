@@ -22,9 +22,9 @@ def main(msg: func.ServiceBusMessage):
     
     try:
     
-        #cursor.execute("SELECT message, subject FROM notification WHERE id = {};".format(notification_id))
+        notification_query = cursor.execute("SELECT message, subject FROM notification WHERE id = {};".format(notification_id))
 
-        # rows = cursor.fetchall()
+        rows = cursor.fetchall()
         # rows = rows [0]
         # subject = str(rows[0])
         # body = str(rows[1])
@@ -36,23 +36,10 @@ def main(msg: func.ServiceBusMessage):
 
         # # Loop through attendees
         # logging.info('Sending email to attendees')
-        # for attendee in attendees:
-        #      Mail('{}, {}, {}'.format({'xxxx@xxxx.com'}, {attendee[2]}, {query}))
+        for attendee in attendees:
+              Mail('{}, {}, {}'.format({'xxxx@xxxx.com'}, {attendee[2]}, {notification_query}))
 
-        #Try different loop 
-        # for (email, first_name) in attendees:
-        #     mail = Mail(
-        #         from_email='erikmonzyk@techconf.com',
-        #         to_emails= email,
-        #         subject= subject,
-        #         plain_text_content= "Hi {}, \n {}".format(first_name, body))
-           # try:
-            # SENDGRID_API_KEY = os.environ['SENDGRID_API_KEY']
-            # send_grid = SendGridAPIClient(SENDGRID_API_KEY)
-            # response = send_grid.send(mail)
-            # except Exception as e:
-            #     logging.error(e)
-            
+          
         new_completed_date = datetime.utcnow()
         status = 'Notified {} attendees'.format(len(attendees))
                 
