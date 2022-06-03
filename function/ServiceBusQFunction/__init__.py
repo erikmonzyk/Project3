@@ -24,6 +24,12 @@ def main(msg: func.ServiceBusMessage):
     
         #cursor.execute("SELECT message, subject FROM notification WHERE id = {};".format(notification_id))
 
+        rows = cur.fetchall()
+        rows = rows [0]
+        subject = str(rows[0])
+        body = str(rows[1])
+        
+        # TODO: Get attendees email and name
         logging.info('Fetching attendees email and name...')
         cursor.execute("SELECT email, first_name FROM attendee;")
         attendees = cursor.fetchall()
