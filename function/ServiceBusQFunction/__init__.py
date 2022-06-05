@@ -5,14 +5,13 @@ import os
 from datetime import datetime
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
-
 def main(msg: func.ServiceBusMessage):
 
-    notification_id_int = int(msg.get_body().decode('utf-8'))
+    # notification_id_int = int(msg.get_body().decode('utf-8'))
     #print('notification_id: {} enqueued to queue: {}'.format(msg.get_body().decode('utf-8')))
     
-    notification_id = int(msg.get_body().decode('utf-8'))
-    logging.info('Python ServiceBus queue trigger processed message: %s, %s', notification_id_int, notification_id)
+    notification_id = (msg.get_body().decode('utf-8'))
+    logging.info('Python ServiceBus queue trigger processed message: %s',notification_id)
 
     # TODO: Get connection to database
 
@@ -31,7 +30,7 @@ def main(msg: func.ServiceBusMessage):
         
         # TODO: Get attendees email and name
         logging.info('Fetching attendees email and name...')
-        cursor.execute("SELECT email, first_name FROM attendee;")
+        attendees = cursor.execute("SELECT email, first_name FROM attendee;")
         attendees = cursor.fetchall()
 
         # # Loop through attendees
@@ -41,7 +40,7 @@ def main(msg: func.ServiceBusMessage):
 
           
         new_completed_date = datetime.utcnow()
-        status = 'Notified {} attendees'.format(len(attendees))
+        status = 'Notified {} attendees, via email'.format(len(attendees))
                 
         cursor.execute("UPDATE notification SET status = '{}', completed_date = '{}' WHERE id = {};".format(status, new_completed_date, notification_id))
         db.commit()
