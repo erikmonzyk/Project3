@@ -72,17 +72,17 @@ def notification():
             notification_id = notification.id
                                             
             # create queue client
-            queue_client = QueueClient.from_connection_string(app.config.get('SERVICE_BUS_CONNECTION_STRING'), app.config.get('SERVICE_BUS_QUEUE_NAME'))
+            my_queue_client = QueueClient.from_connection_string(app.config.get('SERVICE_BUS_CONNECTION_STRING'), app.config.get('SERVICE_BUS_QUEUE_NAME'))
             
             # create message
-            msg = Message(str(notification_id))
+            msg =  Message(str(notification_id))
 
              # send message
-            queue_client.send(msg) 
+            my_queue_client.send(msg) 
   
 
-            print('notification_id: {} enqueued to queue: {}'.format(
-                notification_id, app.config.get('SERVICE_BUS_QUEUE_NAME')))
+            # print('notification_id: {} enqueued to queue: {}'.format(
+            #     notification_id, app.config.get('SERVICE_BUS_QUEUE_NAME')))
 
             # redirect to notifications
             return redirect('/Notifications')
@@ -91,3 +91,14 @@ def notification():
 
     else:
         return render_template('notification.html')
+    
+# def send_email(email, subject, body):
+#     if not app.config.get('SENDGRID_API_KEY'):
+#         message = Mail(
+#             from_email=app.config.get('ADMIN_EMAIL_ADDRESS'),
+#             to_emails=email,
+#             subject=subject,
+#             plain_text_content=body)
+
+#         sg = SendGridAPIClient(app.config.get('SENDGRID_API_KEY'))
+#         sg.send(message)
