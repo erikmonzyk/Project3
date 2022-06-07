@@ -14,7 +14,7 @@ def main(msg: func.ServiceBusMessage):
 
         # TODO: Get connection to database
 
-        connection = psycopg2.connect(host="project3server.postgres.database.azure.com", connectionname="techconf1", user="erikmonzyk@project3server", password="Carson2013$$")
+        connection = psycopg2.connect(host="project3server.postgres.database.azure.com", dbname="techconfdb", user="erikmonzyk@project3server", password="Carson2013$$")
         
         cur = connection.cursor()
         
@@ -33,13 +33,13 @@ def main(msg: func.ServiceBusMessage):
             for attendee in attendees:
                 Mail('{}, {}, {}'.format({'john@doe.com'}, {attendee[2]}, {notification_query}))
             
-            #Update notification table by setting completed_date
-            completed_date = datetime.utcnow()
-            #total_attendees = len(attendees)
-            logging.info('Updating notifications...')
-            notification_status = 'Notified {} attendees'.format(len(attendees))
-            update_query = cur.execute("UPDATE notification SET status = '{}', completed_date = '{}' WHERE id = {};".format(notification_status, completed_date, notification_id))
-            connection.commit()    
+                #Update notification table by setting completed_date
+                completed_date = datetime.utcnow()
+                #total_attendees = len(attendees)
+                logging.info('Updating notifications...')
+                notification_status = 'Notified {} attendees'.format(len(attendees))
+                update_query = cur.execute("UPDATE notification SET status = '{}', completed_date = '{}' WHERE id = {};".format(notification_status, completed_date, notification_id))
+                connection.commit()
 
         except (Exception, psycopg2.DatabaseError) as error:
                 logging.error(error)
