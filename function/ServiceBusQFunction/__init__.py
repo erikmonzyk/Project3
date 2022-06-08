@@ -9,7 +9,7 @@ from sendgrid.helpers.mail import Mail
 
 def main(msg: func.ServiceBusMessage):
 
-    notification_id = int(msg.get_body().decode('utf-8'))
+    notification_id = (msg.get_body().decode('utf-8'))
     logging.info('Python ServiceBus queue trigger processed message: %s',notification_id)
 
     # TODO: Get connection to database
@@ -32,29 +32,17 @@ def main(msg: func.ServiceBusMessage):
 
         # # Loop through attendees
         logging.info('Sending email to attendees', attendees, query)
+        
         for attendee in attendees:
             logging.info('THE VALUES FOR ATTENDEE AND QUERY:', attendee, query)
             #Mail('{}, {}, {}'.format({'xxxx@xxxx.com'}, {attendee[2]}, {query}))
 
-        #Try different loop 
-        # for (email, first_name) in attendees:
-        #     mail = Mail(
-        #         from_email='erikmonzyk@techconf.com',
-        #         to_emails= email,
-        #         subject= subject,
-        #         plain_text_content= "Hi {}, \n {}".format(first_name, body))
-           # try:
-            # SENDGRID_API_KEY = os.environ['SENDGRID_API_KEY']
-            # send_grid = SendGridAPIClient(SENDGRID_API_KEY)
-            # response = send_grid.send(mail)
-            # except Exception as e:
-            #     logging.error(e)
-            
         
-        status = 'Notified {} attendees'.format(len(attendees))
-        notification_completed_date = datetime.utcnow()
-        cur.execute('UPDATE notification SET status= %s, completed_date=%s WHERE id=%s', (status, notification_completed_date, notification_id))
-        db.commit()
+        
+            status = 'Notified {} attendees'.format(len(attendees))
+            notification_completed_date = datetime.utcnow()
+            cur.execute('UPDATE notification SET status= %s, completed_date=%s WHERE id=%s', (status, notification_completed_date, notification_id))
+            db.commit()
 
     except (Exception, psycopg2.DatabaseError) as error:
         logging.error(error)
