@@ -20,10 +20,9 @@ def main(msg: func.ServiceBusMessage):
     
     try:
         
-        query =  cur.execute("SELECT message, subject FROM notification WHERE id = {};".format(notification_id,))
+        query =  cur.execute("SELECT message, subject FROM notification WHERE id = {};".format(notification_id))
         # attendees = cur.fetchall()
-        
-        
+                
         # TODO: Get attendees email and name
         logging.info('Fetching attendees email and name...')
         cur.execute("SELECT first_name, email FROM attendee;")
