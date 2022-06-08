@@ -75,7 +75,7 @@ def notification():
             my_queue_client = QueueClient.from_connection_string(app.config.get('SERVICE_BUS_CONNECTION_STRING'), app.config.get('SERVICE_BUS_QUEUE_NAME'))
             
             # create message
-            msg =  Message(str(notification_id))
+            msg =  Message(int(notification_id))
 
              # send message
             my_queue_client.send(msg) 

@@ -12,7 +12,7 @@ def main(msg: func.ServiceBusMessage):
     #notification_id = (msg.get_body().decode('utf-8'))
     #print('notification_id: {} enqueued to queue: {}'.format(msg.get_body().decode('utf-8')))
     
-    notification_id = str(msg.get_body().decode('utf-8'))
+    notification_id = int(msg.get_body().decode('utf-8'))
     logging.info('Python ServiceBus queue trigger processed message: %s', notification_id)
 
     # TODO: Get connection to database
@@ -23,7 +23,7 @@ def main(msg: func.ServiceBusMessage):
     
     try:
     
-        query = cur.execute("SELECT subject, message FROM notification WHERE id = {};".format(notification_id))
+        query =  cur.execute("SELECT message,subject FROM notification WHERE id=%s;",(notification_id,))
         rows = cur.fetchall()
         rows = rows [0]
         subject = str(rows[0])
@@ -53,10 +53,9 @@ def main(msg: func.ServiceBusMessage):
             # except Exception as e:
             #     logging.error(e)
             
-        new_completed_date = datetime.utcnow()
+        
         status = 'Notified {} attendees'.format(len(attendees))
-                
-        cur.execute("UPDATE notification SET status = '{}', completed_date = '{}' WHERE id = {};".format(status, new_completed_date, notification_id))
+        cur.execute('UPDATE notification SET status= %s, completed_date = %s WHERE id = %s', ('Notified {len(attendees)} attendees', datetime.now(), notification_id))
         db.commit()
 
     except (Exception, psycopg2.DatabaseError) as error:
