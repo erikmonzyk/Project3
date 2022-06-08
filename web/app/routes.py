@@ -89,7 +89,7 @@ def notification():
             # redirect to notifications
             return redirect('/Notifications')
         except:
-            logging.error('log unable to save notification')
+            logging.error('UNABLE TO SAVE NOTIFICATION - FUNCTION DID NOT TRIGGER!')
 
     else:
         return render_template('notification.html')
