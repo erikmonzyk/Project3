@@ -36,7 +36,8 @@ def main(msg: func.ServiceBusMessage):
         # # Loop through attendees
         logging.info('Sending email to attendees')
         for attendee in attendees:
-             Mail('{}, {}, {}'.format({'xxxx@xxxx.com'}, {attendee[2]}, {query}))
+            print("THE VALUES FOR ATTENDEE AND QUERY:", attendee, query)
+            Mail('{}, {}, {}'.format({'xxxx@xxxx.com'}, {attendee[2]}, {query}))
 
         #Try different loop 
         # for (email, first_name) in attendees:
