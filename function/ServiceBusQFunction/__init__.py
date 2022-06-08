@@ -31,10 +31,10 @@ def main(msg: func.ServiceBusMessage):
         attendees = cur.fetchall()
         logging.info('Made it past the attendees fetchall...')
         # # Loop through attendees
-        logging.info('Sending email to attendees', attendees, query)
+        logging.info('Sending email to attendees %s, %s', attendees, query)
         
         for attendee in attendees:
-            logging.info('THE VALUES FOR ATTENDEE AND QUERY:', attendee, query)
+            logging.info('THE VALUES FOR ATTENDEE AND QUERY:%s, %s', attendee, query)
             #Mail('{}, {}, {}'.format({'xxxx@xxxx.com'}, {attendee[2]}, {query}))
 
         
