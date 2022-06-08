@@ -9,9 +9,6 @@ from sendgrid.helpers.mail import Mail
 
 def main(msg: func.ServiceBusMessage):
 
-    #notification_id = (msg.get_body().decode('utf-8'))
-    #print('notification_id: {} enqueued to queue: {}'.format(msg.get_body().decode('utf-8')))
-
     notification_id = int(msg.get_body().decode('utf-8'))
     logging.info('Python ServiceBus queue trigger processed message: %s',notification_id)
 
@@ -34,7 +31,7 @@ def main(msg: func.ServiceBusMessage):
         attendees = cur.fetchall()
 
         # # Loop through attendees
-        logging.info('Sending email to attendees')
+        logging.info('Sending email to attendees', attendees, query)
         for attendee in attendees:
             logging.info('THE VALUES FOR ATTENDEE AND QUERY:', attendee, query)
             #Mail('{}, {}, {}'.format({'xxxx@xxxx.com'}, {attendee[2]}, {query}))
