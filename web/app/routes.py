@@ -81,7 +81,6 @@ def notification():
             
             # send message
             queue_client.send(msg) 
-            response = queue_client.send(msg)
 
             # print('notification_id: {} enqueued to queue: {}'.format(
             #     notification_id, app.config.get('SERVICE_BUS_QUEUE_NAME')))
