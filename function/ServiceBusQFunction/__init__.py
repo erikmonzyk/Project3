@@ -10,7 +10,7 @@ from sendgrid.helpers.mail import Mail
 def main(msg: func.ServiceBusMessage):
 
     notification_id = int(msg.get_body().decode('utf-8'))
-    logging.info('Python ServiceBus queue trigger processed message: %s',notification_id)
+    logging.info('Python ServiceBus queue trigger processed message: %d',notification_id)
 
     # TODO: Get connection to database
 
@@ -19,17 +19,17 @@ def main(msg: func.ServiceBusMessage):
     
     
     try:
-    
-        query =  cur.execute("SELECT message,subject FROM notification  WHERE id=%s;",(notification_id,))
-        rows = cur.fetchall()
+        
+        query =  cur.execute("SELECT message, subject FROM notification WHERE id = {};".format(notification_id,))
+        # attendees = cur.fetchall()
         
         
         # TODO: Get attendees email and name
         logging.info('Fetching attendees email and name...')
-        cur.execute("SELECT email, first_name FROM attendee;")
+        cur.execute("SELECT first_name, email FROM attendee;")
         
         attendees = cur.fetchall()
-
+        logging.info('Made it past the attendees fetchall...')
         # # Loop through attendees
         logging.info('Sending email to attendees', attendees, query)
         
@@ -41,7 +41,7 @@ def main(msg: func.ServiceBusMessage):
         
             status = 'Notified {} attendees'.format(len(attendees))
             notification_completed_date = datetime.utcnow()
-            cur.execute('UPDATE notification SET status= %s, completed_date=%s WHERE id=%s', (status, notification_completed_date, notification_id))
+            cur.execute('UPDATE notification SET status= ?, completed_date=? WHERE id=?', (status, notification_completed_date, notification_id))
             db.commit()
 
     except (Exception, psycopg2.DatabaseError) as error:
