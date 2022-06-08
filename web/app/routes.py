@@ -72,18 +72,16 @@ def notification():
             notification_id = notification.id
                                             
             # create queue client
-            my_queue_client = QueueClient.from_connection_string(app.config.get('SERVICE_BUS_CONNECTION_STRING'), app.config.get('SERVICE_BUS_QUEUE_NAME'))
+            queue_client = QueueClient.from_connection_string(app.config.get('SERVICE_BUS_CONNECTION_STRING'), app.config.get('SERVICE_BUS_QUEUE_NAME'))
             
             # create message
-            #msg =  Message(int(notification_id))
+            msg =  Message(str(notification_id))
             
             id = notification.id
-            msg = Message('id=' + str(id))
+            
+            # send message
+            queue_client.send(msg) 
             response = queue_client.send(msg)
-
-             # send message
-            my_queue_client.send(msg) 
-  
 
             # print('notification_id: {} enqueued to queue: {}'.format(
             #     notification_id, app.config.get('SERVICE_BUS_QUEUE_NAME')))
