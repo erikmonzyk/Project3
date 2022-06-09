@@ -38,7 +38,8 @@ def main(msg: func.ServiceBusMessage):
 
             status = 'Notified {} attendees'.format(len(attendees))
             notification_completed_date = datetime.utcnow()
-            cur.execute("UPDATE notification SET status = '{}', completed_date = '{}' WHERE id = {};".format(status, notification_completed_date, notification_id)) 
+            notification_update = cur.execute("UPDATE notification SET status = '{}', completed_date = '{}' WHERE id = {};".format(status, notification_completed_date, notification_id)) 
+            logging.info('notification update: %s', notification_update)
             db.commit()
 
     except (Exception, psycopg2.DatabaseError) as error:
