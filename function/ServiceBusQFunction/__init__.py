@@ -29,7 +29,7 @@ def main(msg: func.ServiceBusMessage):
         
         attendees = cur.fetchall()
         logging.info('Made it past the attendees fetchall...')
-        # # Loop through attendees
+        # Loop through attendees
         logging.info('Sending email to attendees %s, %s', attendees, query)
         
         for attendee in attendees:

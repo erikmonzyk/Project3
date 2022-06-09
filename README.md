@@ -61,11 +61,21 @@ You will need to install the following locally:
 ## Monthly Cost Analysis
 Complete a month cost analysis of each Azure resource to give an estimate total cost using the table below:
 
-| Azure Resource | Service Tier | Monthly Cost |
-| ------------ | ------------ | ------------ |
-| *Azure Postgres Database* |     |              |
-| *Azure Service Bus*   |         |              |
-| ...                   |         |              |
+Monthly Cost Analysis
+Complete a month cost analysis of each Azure resource to give an estimate total cost using the table below:
 
-## Architecture Explanation
-This is a placeholder section where you can provide an explanation and reasoning for your architecture selection for both the Azure Web App and Azure Function.
+Azure Resource	Service Tier Monthly Cost
+Azure Postgres Database	Basic	$25.32 (.10 per GB @ 5GB / 24.82 per vCore @ 1V Core)
+Azure Service Bus	Basic	$0.05
+Azure Web App Service	F1	free tier
+Azure Storage Account	Basic	$0.01 for the last 30 days
+
+
+Architecture Explanation
+   Ease of Implementation: I chose the AppService over VM due to less infrastructure overhead. You get to select the underlying VM's platform and coding language etc. rather than having to image a VM with these. 
+
+   Peformance: Splitting the function's workload outside of the routes.py and into a notification trigger allows for a more efficient service as well as the ability to be scaled once registration numbers grow past the initial 5 attendees and provide the application better performance.
+
+   Cost: By using an app service plan a higher cost optimization is achieved. These options can be turned on and off when conferences are not in use. 
+
+Scaleable: Vertical and horizontal scalability are achieved by using a WebApp & Azure App Service.
