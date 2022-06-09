@@ -34,13 +34,13 @@ def main(msg: func.ServiceBusMessage):
         
         for attendee in attendees:
             logging.info('THE VALUES FOR ATTENDEE AND QUERY:%s, %s', attendee, query)
-            #Mail('{}, {}, {}'.format({'xxxx@xxxx.com'}, {attendee[2]}, {query}))
+            Mail('{}, {}, {}'.format({'john@doe.com'}, {attendee[2]}, {query}))
 
-            status = 'Notified {} attendees'.format(len(attendees))
-            notification_completed_date = datetime.utcnow()
-            notification_update = cur.execute("UPDATE notification SET status = '{}', completed_date = '{}' WHERE id = {};".format(status, notification_completed_date, notification_id)) 
-            logging.info('notification update: %s', notification_update)
-            db.commit()
+        status = 'Notified {} attendees'.format(len(attendees))
+        notification_completed_date = datetime.utcnow()
+        notification_update = cur.execute("UPDATE notification SET status = '{}', completed_date = '{}' WHERE id = {};".format(status, notification_completed_date, notification_id)) 
+        logging.info('notification update: %s', notification_update)
+        db.commit()
 
     except (Exception, psycopg2.DatabaseError) as error:
         logging.error(error)
