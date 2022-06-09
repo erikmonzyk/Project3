@@ -34,7 +34,7 @@ def main(msg: func.ServiceBusMessage):
         
         for attendee in attendees:
             logging.info('THE VALUES FOR ATTENDEE AND QUERY:%s, %s', attendee, query)
-            Mail('{}, {}, {}'.format({'john@doe.com'}, {attendee[2]}, {query}))
+            Mail('{}, {}, {}'.format({'erikmonzyk@gmail.com'}, {attendee[2]}, {query}))
 
         status = 'Notified {} attendees'.format(len(attendees))
         notification_completed_date = datetime.utcnow()
